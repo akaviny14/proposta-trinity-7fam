@@ -30,382 +30,402 @@
     --border: #E7E1D6;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     background: var(--cream);
     color: var(--navy);
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.55;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
-  .page {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 56px 24px 96px;
-  }
-  header.nav {
+
+  .stage {
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 64px;
+    justify-content: center;
+    padding: 28px;
   }
-  .mark { flex-shrink: 0; }
-  .wordmark { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; }
-  .wordmark span { color: var(--brass); }
-  .tagline { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .nav-text { display: flex; flex-direction: column; }
 
-  .card {
+  .deck {
+    width: 100%;
+    max-width: 1080px;
+    aspect-ratio: 16 / 10;
+    max-height: calc(100vh - 56px);
     background: var(--card);
-    border-radius: 16px;
-    padding: 56px 64px;
-    box-shadow: 0 1px 3px rgba(31,58,95,0.06), 0 12px 40px rgba(31,58,95,0.05);
+    border-radius: 18px;
+    box-shadow: 0 1px 3px rgba(31,58,95,0.08), 0 20px 50px rgba(31,58,95,0.10);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
+
+  .deck-nav {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .wordmark { font-size: 13px; font-weight: 700; letter-spacing: 0.03em; }
+  .wordmark span { color: var(--brass); }
+  .tagline { font-size: 10.5px; color: var(--muted); }
+  .brand-text { display: flex; flex-direction: column; }
+
+  .deck-controls { display: flex; align-items: center; gap: 14px; }
+  .counter { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .nav-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--navy);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, opacity 0.15s;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--blue-bg); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .slides { flex: 1; position: relative; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 40px 64px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+  }
+  .slide.active { display: flex; }
 
   .eyebrow {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--brass);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  h1 {
-    font-size: 34px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-  .lede {
-    font-size: 17px;
-    color: #4B5A6B;
-    max-width: 60ch;
-  }
+  .slide h1 { font-size: 32px; font-weight: 700; line-height: 1.18; margin-bottom: 14px; max-width: 22ch; }
+  .slide h2 { font-size: 24px; font-weight: 700; line-height: 1.25; margin-bottom: 14px; max-width: 24ch; }
+  .slide .lede { font-size: 15px; color: #4B5A6B; max-width: 56ch; }
+  .slide p { font-size: 14.5px; color: #3C4C60; max-width: 60ch; }
+  .slide p + p { margin-top: 10px; }
 
-  section { margin-top: 64px; }
-  section > h2 {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  section > h2::before {
-    content: "";
-    width: 16px;
-    height: 2px;
-    background: var(--brass);
-    display: inline-block;
-  }
-  section h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    line-height: 1.3;
-  }
-  section p {
-    font-size: 15.5px;
-    color: #3C4C60;
-    max-width: 66ch;
-  }
-  section p + p { margin-top: 14px; }
+  .cover .mark-lg { margin-bottom: 22px; }
+  .cover .signoff { margin-top: 28px; font-size: 12px; color: var(--muted); }
 
-  .impact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 24px;
-  }
-  .impact-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    border-left: 3px solid var(--red);
-    font-size: 14.5px;
-    color: #3C4C60;
-  }
-
-  .phases {
-    margin-top: 28px;
-    display: flex;
+  .stat-box {
+    margin-top: 22px;
+    display: inline-flex;
     flex-direction: column;
-    gap: 0;
-  }
-  .phase {
-    display: flex;
-    gap: 20px;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .phase:last-child { border-bottom: none; }
-  .phase-num {
-    flex-shrink: 0;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--navy);
-    color: var(--white);
-    font-size: 13px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .phase-body strong { display: block; font-size: 15.5px; margin-bottom: 3px; }
-  .phase-body span { font-size: 14px; color: var(--muted); }
-
-  .invest-box {
-    margin-top: 28px;
+    gap: 3px;
     background: var(--blue-bg);
     border: 1px solid var(--blue-border);
-    border-radius: 12px;
-    padding: 32px 36px;
+    border-left: 3px solid var(--red);
+    border-radius: 10px;
+    padding: 16px 22px;
+    max-width: 46ch;
   }
-  .invest-value {
-    font-size: 40px;
-    font-weight: 700;
-    color: var(--navy);
+  .stat-box strong { font-size: 16px; color: var(--navy); }
+  .stat-box span { font-size: 13px; color: #4B5A6B; }
+
+  .bullets { margin-top: 16px; list-style: none; }
+  .bullets li {
+    font-size: 14.5px; color: #3C4C60;
+    padding-left: 20px; position: relative; margin-bottom: 8px;
   }
-  .invest-value small { font-size: 16px; font-weight: 500; color: var(--muted); }
+  .bullets li::before {
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brass);
+  }
+
+  .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+  .impact-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; border-left: 3px solid var(--red);
+    font-size: 13px; color: #3C4C60; line-height: 1.4;
+  }
+
+  .phases { display: flex; flex-direction: column; gap: 0; margin-top: 6px; }
+  .phase { display: flex; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--navy); color: var(--white); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .phase-body strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .phase-body span { font-size: 12.5px; color: var(--muted); }
+
+  .invest-box {
+    margin-top: 14px; background: var(--blue-bg); border: 1px solid var(--blue-border);
+    border-radius: 12px; padding: 20px 26px; max-width: 56ch;
+  }
+  .invest-value { font-size: 32px; font-weight: 700; color: var(--navy); }
+  .invest-value small { font-size: 14px; font-weight: 500; color: var(--muted); }
   .invest-terms {
-    margin-top: 18px;
-    font-size: 14.5px;
-    color: #3C4C60;
-    border-top: 1px solid var(--blue-border);
-    padding-top: 18px;
+    margin-top: 10px; font-size: 13px; color: #3C4C60;
+    border-top: 1px solid var(--blue-border); padding-top: 10px;
   }
   .invest-terms strong { color: var(--navy); }
 
-  .note {
-    margin-top: 16px;
-    font-size: 13.5px;
-    color: var(--muted);
-    font-style: italic;
-  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 6px; }
+  .two-col h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px; }
 
-  .checklist { margin-top: 18px; list-style: none; }
-  .checklist li {
-    font-size: 15px;
-    color: #3C4C60;
-    padding-left: 22px;
-    position: relative;
-    margin-bottom: 10px;
-  }
+  .checklist { list-style: none; }
+  .checklist li { font-size: 13.5px; color: #3C4C60; padding-left: 20px; position: relative; margin-bottom: 8px; }
   .checklist li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 7px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--brass);
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brass);
   }
 
-  .closing {
-    margin-top: 64px;
-    padding-top: 40px;
-    border-top: 1px solid var(--border);
-  }
-  .closing p { font-size: 16px; }
-
-  .tech-annex {
-    margin-top: 56px;
-    background: var(--white);
-    border: 1px dashed var(--border);
-    border-radius: 12px;
-    padding: 28px 32px;
-  }
-  .tech-annex h2 { margin-bottom: 16px; }
-  .tech-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 24px;
-    font-size: 14px;
-    color: #4B5A6B;
-  }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; font-size: 13px; color: #4B5A6B; margin-top: 8px; }
   .tech-grid dt { font-weight: 700; color: var(--navy); }
-  .tech-grid dd { margin-bottom: 12px; }
+  .tech-grid dd { margin-bottom: 8px; }
 
-  footer {
-    margin-top: 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12.5px;
-    color: var(--muted);
+  .slide-footer {
+    margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--border);
+    font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between;
   }
 
-  @media (max-width: 640px) {
-    .card { padding: 36px 24px; }
-    h1 { font-size: 26px; }
+  .dots { flex-shrink: 0; display: flex; justify-content: center; gap: 7px; padding: 14px 0; background: var(--white); border-top: 1px solid var(--border); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; border: none; padding: 0; transition: all 0.15s; }
+  .dot.active { background: var(--brass); width: 18px; border-radius: 3px; }
+
+  @media (max-width: 720px) {
+    .deck { aspect-ratio: auto; height: calc(100vh - 40px); }
+    .slide { padding: 28px 24px; }
+    .slide h1 { font-size: 24px; }
+    .slide h2 { font-size: 20px; }
     .impact-grid { grid-template-columns: 1fr; }
-    .invest-value { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 18px; }
+    .tagline { display: none; }
   }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="stage">
+  <div class="deck">
 
-  <header class="nav">
-    <svg class="mark" width="26" height="26" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="16,4 6,26 26,26" fill="none" stroke="#1F3A5F" stroke-width="1.6" opacity=".6"></polygon>
-      <circle cx="16" cy="4" r="2.6" fill="#A6824C"></circle>
-      <circle cx="6" cy="26" r="2.6" fill="#1F3A5F"></circle>
-      <circle cx="26" cy="26" r="2.6" fill="#1F3A5F"></circle>
-    </svg>
-    <div class="nav-text">
-      <div class="wordmark">TRINITY <span>DATA</span></div>
-      <div class="tagline">Proposta comercial — Projeto Seven</div>
+    <div class="deck-nav">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="16,4 6,26 26,26" fill="none" stroke="#1F3A5F" stroke-width="1.6" opacity=".6"></polygon>
+          <circle cx="16" cy="4" r="2.6" fill="#A6824C"></circle>
+          <circle cx="6" cy="26" r="2.6" fill="#1F3A5F"></circle>
+          <circle cx="26" cy="26" r="2.6" fill="#1F3A5F"></circle>
+        </svg>
+        <div class="brand-text">
+          <div class="wordmark">TRINITY <span>DATA</span></div>
+          <div class="tagline">Proposta comercial — Projeto Seven</div>
+        </div>
+      </div>
+      <div class="deck-controls">
+        <span class="counter"><span id="curNum">1</span> / <span id="totalNum">9</span></span>
+        <button class="nav-btn" id="prevBtn" aria-label="Slide anterior">‹</button>
+        <button class="nav-btn" id="nextBtn" aria-label="Próximo slide">›</button>
+      </div>
     </div>
-  </header>
 
-  <div class="card">
+    <div class="slides">
 
-    <div class="eyebrow">Proposta comercial</div>
-    <h1>Visibilidade completa da operação de transporte da Seven, em tempo real.</h1>
-    <p class="lede">
-      Hoje, a Seven não tem visibilidade unificada sobre o que acontece com uma remessa depois que ela sai do
-      centro de distribuição. Cada transportadora — Braspress, Correios e Claro — informa o status à sua
-      maneira, em lugares diferentes, sem que ninguém veja o quadro completo em tempo real.
-    </p>
+      <section class="slide active cover">
+        <div class="eyebrow">Proposta comercial</div>
+        <h1>Visibilidade completa da operação de transporte da Seven, em tempo real.</h1>
+        <p class="lede">
+          Rastreamento unificado de Braspress, Correios e Claro dentro do Power BI que a Seven já utiliza.
+        </p>
+        <div class="signoff">Trinity Data — Engenharia de Dados &amp; BI</div>
+      </section>
 
-    <section>
-      <h2>O custo do problema</h2>
-      <p>
-        O resultado não é só falta de informação: é custo real. Quando uma entrega falha e o pacote precisa
-        voltar, o frete é pago duas vezes — ida e volta — e em operações de grande volume, isso representa
-        entre 1% e 1,5% do valor da nota a cada ocorrência. Multiplicado pelo volume da operação da Seven,
-        esse é um custo que hoje é pago sem conseguir ser antecipado ou evitado.
-      </p>
-    </section>
-
-    <section>
-      <h2>A solução</h2>
-      <h3>Uma visão unificada da operação — não "mais um dashboard"</h3>
-      <p>
-        A Trinity Data propõe construir, dentro do Power BI que a Seven já utiliza, uma visão única e em
-        tempo real de toda a operação de transporte — cobrindo Braspress, Correios e Claro em um só lugar,
-        com alertas automáticos quando algo sai do previsto.
-      </p>
-      <p>
-        Não é uma ferramenta nova para a equipe aprender. É a extensão natural do que a Seven já usa todos
-        os dias, agora enxergando o que hoje é invisível. A governança e o acesso continuam sob controle da
-        própria Seven, e o ganho real é antecipar o problema — não apenas reportá-lo depois que ele já
-        aconteceu.
-      </p>
-    </section>
-
-    <section>
-      <h2>O que muda na prática</h2>
-      <div class="impact-grid">
-        <div class="impact-card">Saber, antes de o cliente reclamar, que uma entrega está atrasada — e agir a tempo de evitar a devolução.</div>
-        <div class="impact-card">Identificar, por transportadora, onde estão concentrados os atrasos e problemas recorrentes — para negociar ou redirecionar volume com base em dado, não em percepção.</div>
-        <div class="impact-card">Ter uma visão consolidada da operação de ponta a ponta, com o mesmo padrão de qualidade visual que a diretoria já está acostumada a ver no Power BI.</div>
-        <div class="impact-card">Reduzir o número de reentregas e, consequentemente, o custo dobrado de frete que elas geram.</div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Como a entrega acontece</h2>
-      <p>O projeto é entregue em etapas, cada uma gerando um resultado visível e utilizável — não um "big bang" no final do prazo.</p>
-      <div class="phases">
-        <div class="phase">
-          <div class="phase-num">1</div>
-          <div class="phase-body"><strong>Fundação</strong><span>Infraestrutura e primeira conexão de dados estabelecida.</span></div>
-        </div>
-        <div class="phase">
-          <div class="phase-num">2</div>
-          <div class="phase-body"><strong>Primeira transportadora no ar</strong><span>Visão completa da Braspress já disponível no Power BI, com alertas funcionando.</span></div>
-        </div>
-        <div class="phase">
-          <div class="phase-num">3</div>
-          <div class="phase-body"><strong>Segunda e terceira transportadoras</strong><span>Correios e Claro/Total Express, com a mesma visão, expandida.</span></div>
-        </div>
-        <div class="phase">
-          <div class="phase-num">4</div>
-          <div class="phase-body"><strong>Visão consolidada</strong><span>Painel único, com a operação inteira em um só lugar — o entregável final do projeto.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Investimento</h2>
-      <p>
-        Considerando o volume de operação da Seven e o custo já identificado em reentregas e frete
-        duplicado, o investimento no projeto se paga rapidamente diante do que evita em custos operacionais
-        recorrentes.
-      </p>
-      <p>
-        A proposta anterior, com escopo limitado a uma única transportadora (Braspress), previa investimento
-        de aproximadamente R$ 5.000. Este projeto amplia o escopo para as três transportadoras da operação —
-        Braspress, Correios e Claro — além da camada de integração e visão consolidada entre elas.
-      </p>
-      <div class="invest-box">
-        <div class="invest-value">R$ 14.000 <small>/ projeto</small></div>
-        <div class="invest-terms">
-          <strong>25% (R$ 3.500)</strong> na formalização/início do projeto, com o restante distribuído a
-          cada etapa de entrega — uma transportadora concluída, um marco pago.
-        </div>
-        <div class="invest-terms">
-          Modelo de consultoria fechada, entregue diretamente na infraestrutura da Seven — <strong>não há
-          mensalidade</strong> nem contrato de assinatura ou SaaS.
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Prazo</h2>
-      <p>
-        Estimativa em definição junto à equipe técnica, considerando a integração das três transportadoras
-        (Braspress, Correios e Claro) desde o início — naturalmente superior aos 30 dias previstos na
-        proposta anterior, que cobria apenas uma integração.
-      </p>
-    </section>
-
-    <section>
-      <h2>Garantia e escopo</h2>
-      <ul class="checklist">
-        <li>Correção de defeitos por 30 dias após o go-live.</li>
-        <li>Escopo (métricas e fluxos) travado no início do projeto e documentado — mudanças depois disso entram como projeto novo, não como retrabalho.</li>
-      </ul>
-    </section>
-
-    <div class="closing">
-      <section style="margin-top:0;">
-        <h2>Próximos passos</h2>
+      <section class="slide">
+        <div class="eyebrow">O problema</div>
+        <h2>Cada transportadora fala uma língua diferente</h2>
         <p>
-          Este é o primeiro projeto de uma parceria que já nasce pensando no que vem depois: novas métricas,
-          novas integrações, outras frentes de dados e BI conforme a operação da Seven for evoluindo. A
-          Trinity Data já está pronta para continuar apoiando nesses próximos passos.
+          Hoje, a Seven não tem visibilidade unificada sobre o que acontece com uma remessa depois que ela
+          sai do centro de distribuição. Cada transportadora — Braspress, Correios, Claro — informa o
+          status à sua maneira, em lugares diferentes, sem que ninguém veja o quadro completo em tempo real.
+        </p>
+        <div class="stat-box">
+          <strong>Reentrega = frete pago duas vezes</strong>
+          <span>Entre 1% e 1,5% do valor da nota a cada ocorrência — multiplicado pelo volume da operação, isso é um custo pago hoje sem conseguir ser antecipado ou evitado.</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">A solução</div>
+        <h2>Uma visão unificada — não "mais um dashboard"</h2>
+        <p>
+          A Trinity Data propõe construir, dentro do Power BI que a Seven já utiliza, uma visão única e em
+          tempo real de toda a operação de transporte — Braspress, Correios e Claro em um só lugar, com
+          alertas automáticos quando algo sai do previsto.
+        </p>
+        <ul class="bullets">
+          <li>Não desloca a equipe para uma ferramenta nova — usa o Power BI existente.</li>
+          <li>Governança e acesso continuam sob controle da própria Seven.</li>
+          <li>O ganho é antecipar o problema, não só reportá-lo depois que ele já aconteceu.</li>
+        </ul>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">O que muda na prática</div>
+        <h2>Impacto no dia a dia da operação</h2>
+        <div class="impact-grid">
+          <div class="impact-card">Saber, antes de o cliente reclamar, que uma entrega está atrasada — e agir a tempo de evitar a devolução.</div>
+          <div class="impact-card">Identificar, por transportadora, onde estão concentrados os atrasos e problemas recorrentes.</div>
+          <div class="impact-card">Ter uma visão consolidada da operação de ponta a ponta, no mesmo padrão visual que a diretoria já usa no Power BI.</div>
+          <div class="impact-card">Reduzir o número de reentregas e, consequentemente, o custo dobrado de frete que elas geram.</div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Como a entrega acontece</div>
+        <h2>Em etapas, com valor visível a cada uma</h2>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">1</div>
+            <div class="phase-body"><strong>Fundação</strong><span>Infraestrutura e primeira conexão de dados estabelecida.</span></div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">2</div>
+            <div class="phase-body"><strong>Primeira transportadora no ar</strong><span>Visão completa da Braspress já disponível no Power BI, com alertas funcionando.</span></div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">3</div>
+            <div class="phase-body"><strong>Segunda e terceira transportadoras</strong><span>Correios e Claro/Total Express, mesma visão, expandida.</span></div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">4</div>
+            <div class="phase-body"><strong>Visão consolidada</strong><span>Painel único, com a operação inteira em um só lugar — entregável final do projeto.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Investimento</div>
+        <h2>Retorno sobre um custo que já existe</h2>
+        <p>
+          A proposta anterior, com escopo limitado a uma única transportadora (Braspress), previa
+          investimento de aproximadamente R$ 5.000. Este projeto amplia o escopo para as três
+          transportadoras da operação, além da camada de integração e visão consolidada entre elas.
+        </p>
+        <div class="invest-box">
+          <div class="invest-value">R$ 14.000 <small>/ projeto</small></div>
+          <div class="invest-terms">
+            <strong>25% (R$ 3.500)</strong> na formalização/início do projeto, com o restante distribuído
+            a cada etapa de entrega — uma transportadora concluída, um marco pago.
+          </div>
+          <div class="invest-terms">
+            Modelo de consultoria fechada, entregue na infraestrutura da Seven — <strong>não há
+            mensalidade</strong> nem contrato de assinatura ou SaaS.
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="two-col">
+          <div>
+            <h3>Prazo</h3>
+            <p>
+              Estimativa em definição junto à equipe técnica, considerando a integração das três
+              transportadoras desde o início — naturalmente superior aos 30 dias da proposta anterior, que
+              cobria apenas uma integração.
+            </p>
+          </div>
+          <div>
+            <h3>Garantia e escopo</h3>
+            <ul class="checklist">
+              <li>Correção de defeitos por 30 dias após o go-live.</li>
+              <li>Escopo travado no início do projeto e documentado — mudanças depois entram como projeto novo.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Próximos passos</div>
+        <h2>O início de uma parceria contínua</h2>
+        <p>
+          Este é o primeiro projeto de uma parceria que já nasce pensando no que vem depois: novas
+          métricas, novas integrações, outras frentes de dados e BI conforme a operação da Seven for
+          evoluindo. A Trinity Data já está pronta para continuar apoiando nesses próximos passos.
         </p>
       </section>
+
+      <section class="slide">
+        <div class="eyebrow">Anexo técnico</div>
+        <h2>Referência formal</h2>
+        <dl class="tech-grid">
+          <dt>Transportadoras integradas</dt>
+          <dd>Braspress, Correios, Claro/Total Express</dd>
+          <dt>Infraestrutura</dt>
+          <dd>Containers Docker, banco de dados MySQL — hospedagem a critério do cliente</dd>
+          <dt>Canais de alerta</dt>
+          <dd>E-mail e Microsoft Teams</dd>
+          <dt>Plataforma de visualização</dt>
+          <dd>Power BI (ambiente já utilizado pela Seven)</dd>
+        </dl>
+        <div class="slide-footer">
+          <span>Trinity Data — Engenharia de Dados &amp; BI</span>
+          <span>Contato: Caio Bosnic</span>
+        </div>
+      </section>
+
     </div>
 
-    <div class="tech-annex">
-      <h2>Anexo técnico</h2>
-      <dl class="tech-grid">
-        <dt>Transportadoras integradas</dt>
-        <dd>Braspress, Correios, Claro/Total Express</dd>
-        <dt>Infraestrutura</dt>
-        <dd>Containers Docker, banco de dados MySQL — hospedagem a critério do cliente</dd>
-        <dt>Canais de alerta</dt>
-        <dd>E-mail e Microsoft Teams</dd>
-        <dt>Plataforma de visualização</dt>
-        <dd>Power BI (ambiente já utilizado pela Seven)</dd>
-      </dl>
-    </div>
-
-    <footer>
-      <span>Trinity Data — Engenharia de Dados &amp; BI</span>
-      <span>Contato: Caio Bosnic</span>
-    </footer>
-
+    <div class="dots" id="dots"></div>
   </div>
 </div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const curNumEl = document.getElementById('curNum');
+  const total = slides.length;
+  let current = 0;
+
+  document.getElementById('totalNum').textContent = total;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', 'Ir para o slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(dot);
+  });
+  const dots = dotsEl.querySelectorAll('.dot');
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    curNumEl.textContent = current + 1;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(total - 1, i));
+    render();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') goTo(current - 1);
+  });
+
+  render();
+</script>
 </body>
 </html>
